@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 
+import os
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -52,12 +54,13 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'second.urls'
 
+TEMPLATES_DIR = os.path.join(BASE_DIR, "templates")
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
+        'DIRS': [TEMPLATES_DIR],
+        'APP_DIRS': True, # поиск 
+        'OPTIONS': { # обраьотчики шаблонов
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',

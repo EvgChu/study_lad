@@ -6,7 +6,11 @@ from django.http import (
     HttpResponseForbidden
     )
 
+from django.shortcuts import render
+
 def index(request):
+
+    return render(request, "firstapp/index.html")
     return HttpResponsePermanentRedirect("/about/")
     return HttpResponseRedirect("/about/")
     return HttpResponse("Hello World")
