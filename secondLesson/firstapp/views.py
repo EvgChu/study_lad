@@ -1,10 +1,18 @@
-from django.http import HttpResponse
+from django.http import (
+    HttpResponse,
+    HttpResponsePermanentRedirect,
+    HttpResponseRedirect,
+    HttpResponseBadRequest,
+    HttpResponseForbidden
+    )
 
 def index(request):
+    return HttpResponsePermanentRedirect("/about/")
+    return HttpResponseRedirect("/about/")
     return HttpResponse("Hello World")
 
 def about(request):
-    return HttpResponse("Hello World")
+    return HttpResponse("about")
 
 def producut(request, productId=0):
     category = request.GET.get("cat", "Not define")
@@ -16,3 +24,12 @@ def user(request):
     name = request.GET.get("name", "Not define")
     output = f"<p>ID {id}</p><p> NAME {name}</p>"
     return HttpResponse(output)
+
+def access(request, age):
+    if age not in range(1, 111):
+        return HttpResponseBadRequest("Enter correct data")
+    if age > 17:
+        return HttpResponse("Access open")
+    else:
+        return HttpResponseForbidden("Access block, only for adults")
+    
