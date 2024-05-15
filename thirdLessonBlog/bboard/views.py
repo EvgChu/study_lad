@@ -5,7 +5,6 @@ from .models import Bb
 # Create your views here.
 
 def index(request):
-    res = ''
-    for bb in Bb.objects.order_by('-published'):
-        res += bb.title + ': ' + bb.content + '<br>'
-    return HttpResponse(res)
+    bbs = Bb.objects.order_by('-published')
+
+    return render(request, 'bboard/index.html', {'bbs': bbs})
