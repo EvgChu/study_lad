@@ -25,6 +25,20 @@ sign_types = {
     'water': ['cancer', 'scorpio', 'pisces']
 }
 
+zodiac_dates = {
+    1:  {'capricorn': (1, 20),   'aquarius': (21, 31)},
+    2:  {'aquarius': (1, 19),    'pisces': (20, 29)},
+    3:  {'pisces': (1, 20),      'aries': (21, 31)},
+    4:  {'aries': (1, 20),       'taurus': (21, 30)},
+    5:  {'taurus': (1, 21),      'gemini': (22, 31)},
+    6:  {'gemini':  (1, 21),     'cancer': (22, 30)},
+    7:  {'cancer':  (1, 22),     'leo': (23, 31)},
+    8:  {'leo': (1, 21),         'virgo': (22, 31)},
+    9:  {'virgo': (1, 22),       'libra': (23, 30)},
+    10: {'libra': (1, 23),       'scorpio': (24, 31)},
+    11: {'scorpio': (1, 22),     'sagittarius': (23, 30)},
+    12: {'sagittarius': (1, 22), 'capricorn': (23, 31)}
+}
 
 def _create_lists(elemetns: list, viewname):
     li_elements = ""
@@ -84,3 +98,17 @@ def get_info_about_type(request, type_sign):
             '<p>Выберите знак зодиака:</p>'
             f'{_create_lists(description, "horoscope_name")}'
         )
+
+
+def get_info_about_day(request, month, day):
+
+    if month in zodiac_dates:
+        for sign in zodiac_dates[month]:
+            if day >= zodiac_dates[month][sign][0] and day <= zodiac_dates[month][sign][1]:                  
+                redirect_url = reverse(
+                    "horoscope_name", 
+                    args=[sign]
+                )
+                return HttpResponseRedirect(redirect_url)
+
+    return HttpResponseNotFound(f'Знак зодиака {month} {day} не найден')
