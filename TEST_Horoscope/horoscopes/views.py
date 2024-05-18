@@ -18,23 +18,42 @@ zodiac_dict = {
     'pisces': 'Рыбы - двенадцатый знак зодиака, планеты Юпитер (с 20 февраля по 20 марта).',
 }
 
-def index(request):
+sign_types = {
+    'fire': ['aries', 'leo', 'sagittarius'],
+    'earth': ['taurus', 'virgo', 'capricorn'],
+    'air': ['gemini', 'libra', 'aquarius'],
+    'water': ['cancer', 'scorpio', 'pisces']
+}
+
+
+def _create_lists(elemetns: list, viewname):
     li_elements = ""
 
-    for sign in zodiac_dict.keys():
-        li_elements += '<li><a href="{0}">{1}</a><br></li>'.format(reverse('horoscope_name', args=[sign]), sign)
+    for sign in elemetns:
+        li_elements += '<li><a href="{0}">{1}</a><br></li>'.format(reverse(viewname, args=[sign]), sign)
                 
     result = f"<ol>{li_elements}</ol>"
-    return HttpResponse(result)
+    return result
+
+
+def index(request):
+    type_url = '<h2><a href="{0}">{1}</a><br></h2>'.format(reverse("types", ), "Стихии")
+    return HttpResponse(
+        '<h1>Знаки зодиака</h1>'
+        '<p>Выберите знак зодиака:</p>'
+        f'{_create_lists(zodiac_dict.keys(), "horoscope_name")}'
+        f'{type_url}'
+    )
+
                 
 
 def get_info_about_sign_zodiac(request, sign_horoscope):
     description = zodiac_dict.get(sign_horoscope, None)
-
+    main_url = '<h1><a href="{0}">{1}</a><br></h1>'.format(reverse("index", ), "Главная")
     if description is None:
-        return HttpResponseNotFound(f'Знак зодиака {sign_horoscope} не найден')
+        return HttpResponseNotFound(main_url + f'Знак зодиака {sign_horoscope} не найден')
     else:
-        return HttpResponse(description)
+        return HttpResponse(main_url + description)
 
 
 def get_info_about_sign_zodiac_by_number(request, sign_horoscope):
@@ -45,4 +64,23 @@ def get_info_about_sign_zodiac_by_number(request, sign_horoscope):
     else:
         redirect_url = reverse("horoscope_name", args=[zodiac[sign_horoscope - 1]])
         return HttpResponseRedirect(redirect_url)
-                
+    
+
+def get_show_types(request):
+    return HttpResponse(
+        '<h1>Стихии зодиака</h1>'
+        '<p>Выберите стихию зодиака:</p>'
+        f'{_create_lists(sign_types.keys(), "horoscope_types")}'
+    )
+
+def get_info_about_type(request, type_sign):
+    description = sign_types.get(type_sign, None)
+
+    if description is None:
+        return HttpResponseNotFound(f'Стихия зодиака {sign_types} не найден')
+    else:
+        return HttpResponse(
+            f'<h1>Стихия {type_sign}</h1>'
+            '<p>Выберите знак зодиака:</p>'
+            f'{_create_lists(description, "horoscope_name")}'
+        )
