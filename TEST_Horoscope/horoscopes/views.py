@@ -63,7 +63,6 @@ def index(request, year=None):
     )
 
                 
-
 def get_info_about_sign_zodiac(request, sign_horoscope):
     description = zodiac_dict.get(sign_horoscope.lower(), None)
     main_url = '<h1><a href="{0}">{1}</a><br></h1>'.format(reverse("index", ), "Главная")
