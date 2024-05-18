@@ -50,8 +50,11 @@ def _create_lists(elemetns: list, viewname):
     return result
 
 
-def index(request):
+def index(request, year=None):   
     type_url = '<h2><a href="{0}">{1}</a><br></h2>'.format(reverse("types", ), "Стихии")
+    if year:
+        type_url += f"<h2> Secret {year} </h2>"
+ 
     return HttpResponse(
         '<h1>Знаки зодиака</h1>'
         '<p>Выберите знак зодиака:</p>'
