@@ -65,7 +65,7 @@ def index(request, year=None):
                 
 
 def get_info_about_sign_zodiac(request, sign_horoscope):
-    description = zodiac_dict.get(sign_horoscope, None)
+    description = zodiac_dict.get(sign_horoscope.lower(), None)
     main_url = '<h1><a href="{0}">{1}</a><br></h1>'.format(reverse("index", ), "Главная")
     if description is None:
         return HttpResponseNotFound(main_url + f'Знак зодиака {sign_horoscope} не найден')
@@ -91,7 +91,7 @@ def get_show_types(request):
     )
 
 def get_info_about_type(request, type_sign):
-    description = sign_types.get(type_sign, None)
+    description = sign_types.get(type_sign.lower(), None)
 
     if description is None:
         return HttpResponseNotFound(f'Стихия зодиака {sign_types} не найден')
