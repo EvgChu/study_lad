@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% load static %}
+
+{% block css_additional %} <link rel="stylesheet" href="{% static 'horoscopes/css/info.css' %}"> {% endblock css_additional %}
+
 {% block title %} {{context}} {% endblock title %}
 
 {% block content %}

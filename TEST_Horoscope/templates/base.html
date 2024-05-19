@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> {% block title %}{% endblock title %}</title>
+    {% block css_additional %}{% endblock css_additional %}
 </head>
 <body>
     <h1><a href={% url "index" %}> Главная </a> </h1>
