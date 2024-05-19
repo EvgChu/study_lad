@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main</title>
+</head>
+<body>
+    <h1><a href={% url "index" %}> Главная </a> </h1>
+    <ol>
+        {% for zodiac in zodiacs %}
+        <li>
+           <a href="{% url "index" %}{{zodiac}}"> {{ zodiac }} </a> 
+        </li>
+        {% endfor %}        
+    </ol>
+    <h1><a href={% url "index" %}> Главная </a> </h1>
+    
+</body>
+</html>
