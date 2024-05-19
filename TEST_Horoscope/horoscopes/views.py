@@ -1,6 +1,8 @@
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
+from django.shortcuts import render
+
 # Create your views here.
 
 zodiac_dict = {
@@ -53,8 +55,7 @@ def _create_lists(elemetns: list, viewname):
 def index(request, year=None):   
     type_url = '<h2><a href="{0}">{1}</a><br></h2>'.format(reverse("types", ), "Стихии")
     if year:
-        type_url += f"<h2> Secret {year} </h2>"
- 
+        type_url += f"<h2> Secret {year} </h2>"  
     return HttpResponse(
         '<h1>Знаки зодиака</h1>'
         '<p>Выберите знак зодиака:</p>'
@@ -65,11 +66,10 @@ def index(request, year=None):
                 
 def get_info_about_sign_zodiac(request, sign_horoscope):
     description = zodiac_dict.get(sign_horoscope.lower(), None)
-    main_url = '<h1><a href="{0}">{1}</a><br></h1>'.format(reverse("index", ), "Главная")
     if description is None:
         return HttpResponseNotFound(main_url + f'Знак зодиака {sign_horoscope} не найден')
     else:
-        return HttpResponse(main_url + description)
+        return render(request, 'horoscopes/info_zodiac.html', {"description": description})
 
 
 def get_info_about_sign_zodiac_by_number(request, sign_horoscope):
