@@ -61,7 +61,11 @@ def get_info_about_sign_zodiac(request, sign_horoscope):
     if description is None:
         return HttpResponseNotFound(f'Знак зодиака {sign_horoscope} не найден')
     else:
-        return render(request, 'horoscopes/info_zodiac.html', {"description": description})
+        context = { 
+            "description": description,
+            "sign_horoscope": sign_horoscope,
+        }
+        return render(request, 'horoscopes/info_zodiac.html', context)
 
 
 def get_info_about_sign_zodiac_by_number(request, sign_horoscope):
