@@ -10,11 +10,11 @@
     <ol>
         {% for zodiac in zodiacs %}
         <li>
-           <a href="{% url "index" %}{{zodiac}}"> {{ zodiac }} </a> 
+           <a href="{% url "horoscope_name" zodiac %}"> {{ zodiac|title }} </a> 
         </li>
         {% endfor %}        
     </ol>
     <h1><a href={% url "index" %}> Главная </a> </h1>
-    
+
 </body>
 </html>
