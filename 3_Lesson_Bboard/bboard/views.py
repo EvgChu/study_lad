@@ -6,8 +6,12 @@ from .models import Bb, Rubric
 
 def index(request):
     bbs = Bb.objects.all()
-
-    return render(request, 'bboard/index.html', {'bbs': bbs})
+    rubrics = Rubric.objects.all()
+    context = {
+        'bbs': bbs,
+        'rubrics': rubrics,
+    }
+    return render(request, 'bboard/index.html', context)
 
 def rubric_bbs(request, rubric_id):
     bbs = Bb.objects.filter(rubric=rubric_id)
