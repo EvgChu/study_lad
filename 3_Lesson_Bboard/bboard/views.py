@@ -1,7 +1,9 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.views.generic.edit import CreateView
+from django.urls import reverse
 
 from .models import Bb, Rubric
+from .forms import BbForm
 # Create your views here.
 
 def index(request):
@@ -23,3 +25,8 @@ def rubric_bbs(request, rubric_id):
         'current_rubric': current_rubric
     }
     return render(request, 'bboard/rubric.html', context)
+
+class BbCreateView(CreateView):
+    template_name = 'bboard/bb_create.html'
+    form_class = BbForm
+    success_url = reverse('bboard:index')
