@@ -8,30 +8,10 @@
 <body>
     <div>
         <h3> as_table </h3>
-        <form method="post">
+        <form method="post" novalidate>
             {% csrf_token %}
             <table>
                 {{ form.as_table }}
-            </table>        
-            <input type="submit" value="Send">
-        </form>    
-    </div>
-    <div>
-        <h3> as_ul </h3>
-        <form method="post">
-            {% csrf_token %}
-            <table>
-                {{ form.as_ul }}
-            </table>        
-            <input type="submit" value="Send">
-        </form>    
-    </div>
-    <div>
-        <h3> as_p </h3>
-        <form method="post">
-            {% csrf_token %}
-            <table>
-                {{ form.as_p }}
             </table>        
             <input type="submit" value="Send">
         </form>    
