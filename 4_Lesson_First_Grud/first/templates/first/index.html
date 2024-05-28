@@ -7,16 +7,43 @@
 </head>
 <body>
     <div>
-        <h3> as_table </h3>
-        <form method="post" novalidate>
+        <h3> Main </h3>
+        <form action="create/" method="post">
             {% csrf_token %}
-            {% for field in form %}
-                {{ field.label_tag}}
-                {{ field }} 
-                <div class="error"> {{ field.errors }} </div>
-            {% endfor %}
+            <label for="text_name">Name</label>
+            <input type="text" name="name" id="text_name">
+            <label for="number_age">Age</label>
+            <input type="number" name="age" id="number_age">
             <input type="submit" value="Send">
         </form>    
     </div>
+
+    {% if people.count > 0 %}
+    <div>
+        <h3> people </h3>
+        <table>
+            <thead align="center">
+                <tr>
+                    <th width="10%">id</th>
+                    <th width="30%">name</th>
+                    <th width="10%">age</th>
+                    <th width="50%">action</th>
+                </tr>
+            </thead>
+            <tbody align="center">
+                {% for p in people %}
+                    <tr>
+                        <td> {{ p.id }} </td>
+                        <td> {{ p.name }} </td>
+                        <td> {{ p.age }} </td>
+                        <td> 
+                            <a href="edit/{{ p.id }}">Edit</a> | <a href="delete/{{ p.id }}">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>       
+    {% endif %}
 </body>
 </html>
