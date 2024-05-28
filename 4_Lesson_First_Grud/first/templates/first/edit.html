@@ -10,13 +10,14 @@
         <h3> edit </h3>
         <form method="post">
             {% csrf_token %}
-            <label for="text_name">Name</label>
-            <input type="text" name="name" id="text_name" value="{{person.name}}">
-
-            <label for="number_age">Age</label>
-            <input type="number" name="age" id="number_age" value="{{person.age}}">
-
-            <input type="submit" value="Send">
+            <table>
+                <tbody>
+                    {{ form.as_table }}
+                </tbody>
+                <tr>
+                    <td colspan="2" align="center"> <input type="submit" value="Send"> </td>
+                </tr>
+            </table>
         </form>    
     </div>  
 </body>
