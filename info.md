@@ -13,5 +13,5 @@
 - [ ][ ] 25.05:
 https://drive.google.com/file/d/1w31ilHbPcn6O7HAtDYVrO5fvNrBK9vdK/view?usp=drivesdk
 
-- [ ][ ] 29.05:
+- [x][ ] 29.05:
 https://drive.google.com/file/d/15RoWqhigCFE7XBMS2hkb2jnaSC6uyjqy/view?usp=sharing
