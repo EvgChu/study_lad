@@ -7,13 +7,13 @@ class Post(models.Model):
     time_create = models.DateTimeField(auto_now_add=True)
     time_update = models.DateTimeField(auto_now=True)
     is_published = models.BooleanField(default=True)
-    cat = models.ForeignKey()
+    cat = models.ForeignKey('Category', null=True, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
         return f"{self.title}"
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, index=True)
+    name = models.CharField(max_length=100, db_index=True)
 
     def __str__(self) -> str:
         return f"{self.name}"
