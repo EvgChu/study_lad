@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "9-lesson-taskmanager"
+version = "0.1.0"
+description = ""
+authors = ["KinChu <chuevgenii@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+django = ">=4.2,<5.0"
+ipython = "^8.25.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
