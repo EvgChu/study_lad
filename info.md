@@ -19,3 +19,5 @@ https://drive.google.com/file/d/15RoWqhigCFE7XBMS2hkb2jnaSC6uyjqy/view?usp=shari
 - 8 | 02.06: консультация
 
 - 9 | 05.06:
+
+- 10 | 13.06:
