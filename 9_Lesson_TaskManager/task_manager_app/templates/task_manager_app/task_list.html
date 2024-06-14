@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task List</title>
+</head>
+<body>
+    <h1>Task List</h1>
+    <form method="get">
+        <label for="status">Filter by status:</label>
+        <select name="status" id="status">
+            <option value="">All</option>
+            <option value="АКТ">Активная</option>
+            <option value="ЗВР">Завершённая</option>
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+    <a href="{% url 'task_create' %}">Create New Task</a>
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <a href="{% url 'task_detail' task.pk %}">{{ task.title }}</a>
+                ({{ task.get_status_display }})
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

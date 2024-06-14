@@ -1,0 +1,41 @@
+<!-- tasks/templates/task_manager_app/task_detail.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Task Detail: {{ task.title }}</title>
+</head>
+<body>
+    <h1>{{ task.title }}</h1>
+    <p>Description: {{ task.description }}</p>
+    <p>Status: {{ task.get_status_display }}</p>
+    <p>Due date: {{ task.due_date }}</p>
+
+    <h2>Comments</h2>
+    {% if comments %}
+        <ul>
+            {% for comment in comments %}
+                <li>
+                    {% if comment.author.username %}
+                        <strong>{{ comment.author.username }}</strong>: {{ comment.text }}
+                    {% else %}
+                        <strong>Anonimus</strong>: {{ comment.text }}
+                    {% endif %}
+                   
+                    <small>{{ comment.created_date }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No comments yet.</p>
+    {% endif %}
+
+    <h2>Add a comment</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Comment</button>
+    </form>
+
+    <a href="{% url 'task_list' %}">Back to Task List</a>
+</body>
+</html>

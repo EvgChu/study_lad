@@ -20,7 +20,7 @@ class Task(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     priority = models.CharField(max_length=10, choices=Priority.choices, default=Priority.medium)  
-    
+
     def __str__(self):
         return self.title
     
@@ -32,7 +32,6 @@ class Task(models.Model):
 
 class Comment(models.Model):
     creator  = models.ForeignKey(User, null=True, blank=True, on_delete=models.SET_NULL)
-    task  = models.ForeignKey(Task, on_delete=models.CASCADE)
     text  = models.TextField()
     created   = models.DateTimeField(auto_now_add=True)
-
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
