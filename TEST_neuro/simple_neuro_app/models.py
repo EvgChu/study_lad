@@ -15,6 +15,7 @@ class Neuron(models.Model):
         choices=VERSION_CHOICES.choices, 
         default=VERSION_CHOICES.V1
     )
+    alpha = models.FloatField(default=1)
 
     def __str__(self):
         return f"{self.title} (v{self.version}), w={self.weight}, s={self.step_amount}, N={self.number_of_iterations}, g={self.goal_prediction}"
@@ -61,8 +62,8 @@ class Neuron(models.Model):
             prediction = input_value * weight
             error = (prediction - self.goal_prediction) ** 2
 
-            direction_and_amount  = (prediction  - self.goal_prediction) * input_value
-            weight = weight - direction_and_amount
+            direction_and_amount = (prediction  - self.goal_prediction) * input_value
+            weight = weight - direction_and_amount * self.alpha
             msgs.append(f'№{i}) Error: {error}, Prediction: {prediction}, Weight: {weight}')
 
         self.weight = weight
