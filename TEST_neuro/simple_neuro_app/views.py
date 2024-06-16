@@ -15,7 +15,7 @@ def add_neuron(request):
         form = NeuronForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(request, 'index')
+            return redirect('index')
     return render(request, 'simple_neuro_app/add_neuron.html', {'form': form})
 
 
