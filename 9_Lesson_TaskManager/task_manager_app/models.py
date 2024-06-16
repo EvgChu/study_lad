@@ -35,3 +35,24 @@ class Comment(models.Model):
     text  = models.TextField()
     created   = models.DateTimeField(auto_now_add=True)
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
+
+
+class TypeOfPomodoro(models.Model):
+    pomodoro_time  = models.IntegerField(default=25)
+    pomodoro_short_break  = models.IntegerField(default=5)
+    pomodoro_long_break   = models.IntegerField(default=10)
+    counts_short_breaks   = models.IntegerField(default=3)
+
+
+class Pomodoro(models.Model):
+    class Status(models.TextChoices):
+        ACTIVE = 'Активная'
+        DONE = 'Завершена'
+        PAUSED = 'Пауза'
+
+    task = models.ForeignKey(Task, on_delete=models.CASCADE)
+    type_of_pomodoro = models.ForeignKey(TypeOfPomodoro, on_delete=models.CASCADE)
+    start_time = models.DateTimeField(auto_now_add=True)
+    
+    status = models.CharField(max_length=20, choices=Status.choices, default=Status.ACTIVE)
+    title  = models.CharField(max_length=100)
