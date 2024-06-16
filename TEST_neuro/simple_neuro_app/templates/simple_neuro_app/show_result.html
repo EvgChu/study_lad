@@ -8,6 +8,7 @@
     <a href="{% url 'index' %}">Back to List</a>
 
     <h4>{{ neuron }}</h4>
+    <h4><a href="{% url 'neuron_edit' neuron.pk %}">Edit Neuron</a></h43>
 
     <form method="post">
         {% csrf_token %}

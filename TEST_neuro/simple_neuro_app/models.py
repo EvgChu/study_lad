@@ -16,7 +16,7 @@ class Neuron(models.Model):
     )
 
     def __str__(self):
-        return f"{self.title} (v{self.version}), w={self.weight}, s={self.step_amount}, N={self.number_of_iterations}"
+        return f"{self.title} (v{self.version}), w={self.weight}, s={self.step_amount}, N={self.number_of_iterations}, g={self.goal_prediction}"
 
     def calculate(self, input_data):
         if self.version == Neuron.VERSION_CHOICES.V1:
@@ -43,8 +43,9 @@ class Neuron(models.Model):
                 weight = weight - self.step_amount
                 self.save()
             elif down_error > up_error:
-                weight = weight - self.step_amount
+                weight = weight + self.step_amount
 
+        self.weight = weight
         self.save()
 
         return msgs

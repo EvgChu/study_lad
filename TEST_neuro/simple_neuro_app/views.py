@@ -19,8 +19,20 @@ def add_neuron(request):
     return render(request, 'simple_neuro_app/add_neuron.html', {'form': form})
 
 
-def calculate(request, pk_weight): 
-    neuron = get_object_or_404(Neuron, pk=pk_weight)
+def neuron_edit(request, pk): 
+    neuron = get_object_or_404(Neuron, pk=pk)
+    if request.method == 'POST':
+        form = NeuronForm(request.POST, instance=neuron)
+        if form.is_valid():
+            form.save()
+            return redirect('calculate', neuron.pk)
+    else:
+        form = NeuronForm(instance=neuron)
+    return render(request, 'simple_neuro_app/add_neuron.html', {'form': form})
+
+
+def calculate(request, pk): 
+    neuron = get_object_or_404(Neuron, pk=pk)
     msgs = []
     form = InputDataFrom(request.POST) 
     if request.method == 'POST':
