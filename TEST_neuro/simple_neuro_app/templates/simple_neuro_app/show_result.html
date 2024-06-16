@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Neuro</title>
+</head>
+<body>
+    <h1>Neuro</h1>
+    <a href="{% url 'index' %}">Back to List</a>
+
+    <h4>{{ neuron }}</h4>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Start</button>
+    </form>
+
+    <ul>
+        {% for msg in msgs %}
+            <li>
+                <p>{{ msg }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+
+</body>
+</html>

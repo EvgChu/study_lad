@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Neuros List</title>
+</head>
+<body>
+    <h1>Neuros List</h1>
+
+    <h3><a href="{% url 'add_neuron' %}">Ass New Neuron</a></h3>
+    <ul>
+        {% for neuron in neurons %}
+            <li>
+                <a href="{% url 'calculate' neuron.pk %}">{{ neuron }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
