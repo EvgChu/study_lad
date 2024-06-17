@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'simple_neuro_app',
+    'first_neural_network_app',
 ]
 
 MIDDLEWARE = [

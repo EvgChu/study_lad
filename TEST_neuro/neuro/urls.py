@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('v1/', include('simple_neuro_app.urls')),
+    path('v2/', include('first_neural_network_app.urls')),
 ]
