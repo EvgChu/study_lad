@@ -21,3 +21,5 @@ https://drive.google.com/file/d/15RoWqhigCFE7XBMS2hkb2jnaSC6uyjqy/view?usp=shari
 - 9 | 05.06:
 
 - 10 | 13.06:
+
+- 11 | 19.06:
