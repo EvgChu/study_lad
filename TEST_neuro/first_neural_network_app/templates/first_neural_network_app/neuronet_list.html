@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NeuroNet List</title>
+</head>
+<body>
+    <h1>NeuroNet List</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>First Layer</th>
+                <th>Number of Layers</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for neuronet in neuronets %}
+            <tr>
+                <td>{{ neuronet.name }}</td>
+                <td>{{ neuronet.first_layer.name }}</td>
+                <td>{{ neuronet.number_of_layers }}</td>
+                <td>
+                    <a href="{% url 'add_layer' neuronet.id %}">Add Layer</a> |
+                    <a href="{% url 'train_neuronet' neuronet.id %}">Train</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'create_neuronet' %}">Create New NeuroNet</a>
+</body>
+</html>
