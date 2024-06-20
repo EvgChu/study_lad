@@ -47,7 +47,6 @@ class NeuroNetTestCase(TestCase):
             [1,  1,  1]
         ])
 
-
         self.hidden_size = 4
         self.alpha = 0.2
 
@@ -79,7 +78,6 @@ class NeuroNetTestCase(TestCase):
 
 
     def test_compare_example_from_book(self):
-        np.random.seed(1)
 
         def relu(x):
             return np.maximum(0, x)
@@ -88,10 +86,7 @@ class NeuroNetTestCase(TestCase):
             return output > 0
         
         walk_vs_stop = np.array([[1,  1,  0,  0]]).T
-
-        alpha = self.alpha
-
-        print()
+ 
         for iteration in range(200):
             layer_2_error = 0
             for i in range(len(self.streetlights)):
@@ -114,8 +109,8 @@ class NeuroNetTestCase(TestCase):
                 np.testing.assert_almost_equal(deltas[1], layer_2_delta)
                 np.testing.assert_almost_equal(deltas[0], layer_1_delta)
 
-                self.weights_1_2 -= alpha * layer_1.T.dot(layer_2_delta)
-                self.weights_0_1 -= alpha * layer_0.T.dot(layer_1_delta)
+                self.weights_1_2 -= self.alpha * layer_1.T.dot(layer_2_delta)
+                self.weights_0_1 -= self.alpha * layer_0.T.dot(layer_1_delta)
 
                 self.neuronet.update_weights(activations, deltas)
 
@@ -124,4 +119,3 @@ class NeuroNetTestCase(TestCase):
 
             if iteration % 10 == 9:
                 print("Iteration: ", iteration, "Error: ", layer_2_error)
-
