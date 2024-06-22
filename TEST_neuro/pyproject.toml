@@ -10,6 +10,7 @@ python = "^3.10"
 numpy = "^1.26.4"
 django = ">=4.2,<5.0"
 keras = "^3.3.3"
+tensorflow = "^2.16.1"
 
 
 [build-system]
