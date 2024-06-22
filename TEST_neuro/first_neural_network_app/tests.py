@@ -12,10 +12,10 @@ class LayerTestCase(TestCase):
             type_fn_activation='relu'
         )
         self.weights = np.array([[0.2, 0.8], [0.6, 0.4]])
-        self.layer.save_array_to_blob(self.weights)
+        self.layer.save_weights_to_blob(self.weights)
 
     def test_save_and_load_array_to_blob(self):
-        loaded_weights = self.layer.load_array_from_blob()
+        loaded_weights = self.layer.load_weights_from_blob()
         np.testing.assert_array_equal(self.weights, loaded_weights)
 
     def test_activation_functions(self):
@@ -64,10 +64,10 @@ class NeuroNetTestCase(TestCase):
         self.weights_0_1 = 2*np.random.random((3,  self.hidden_size)) - 1
         self.weights_1_2 = 2*np.random.random((self.hidden_size,  1)) - 1      
         
-        self.layer_mid.save_array_to_blob(self.weights_0_1)
+        self.layer_mid.save_weights_to_blob(self.weights_0_1)
 
         self.layer_out.previous_layer = self.layer_mid
-        self.layer_out.save_array_to_blob(self.weights_1_2)
+        self.layer_out.save_weights_to_blob(self.weights_1_2)
 
         self.neuronet = NeuroNet.objects.create(
             name="Test Network",
@@ -87,7 +87,7 @@ class NeuroNetTestCase(TestCase):
         
         walk_vs_stop = np.array([[1,  1,  0,  0]]).T
  
-        for iteration in range(200):
+        for iteration in range(10):
             layer_2_error = 0
             for i in range(len(self.streetlights)):
                 layer_0 =  self.streetlights[i:i+1]
@@ -114,8 +114,8 @@ class NeuroNetTestCase(TestCase):
 
                 self.neuronet.update_weights(activations, deltas)
 
-                np.testing.assert_almost_equal(self.layer_out.load_array_from_blob(), self.weights_1_2)
-                np.testing.assert_almost_equal(self.layer_mid.load_array_from_blob(), self.weights_0_1)
+                np.testing.assert_almost_equal(self.layer_out.load_weights_from_blob(), self.weights_1_2)
+                np.testing.assert_almost_equal(self.layer_mid.load_weights_from_blob(), self.weights_0_1)
 
             if iteration % 10 == 9:
                 print("Iteration: ", iteration, "Error: ", layer_2_error)

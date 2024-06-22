@@ -9,6 +9,10 @@ class Layer(models.Model):
     next_layer = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='_previous_layers')
     previous_layer = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='_next_layers')
     alpha = models.FloatField(default=1)
+
+    use_dropout = models.BooleanField(default=False)
+    last_dropout_mask = models.BinaryField(null=True, blank=True)
+
     type_fn_activation = models.CharField(max_length=255, choices=[
         ('none', 'None'),
         ('relu', 'ReLU'),
@@ -32,7 +36,7 @@ class Layer(models.Model):
         return np.tanh(x)
 
     def _tanh2deriv(self, output):
-        raise NotImplementedError
+        raise 1 - (output ** 2)
 
     def activate(self, x):
         if self.type_fn_activation == 'none':
@@ -58,15 +62,27 @@ class Layer(models.Model):
         else:
             raise ValueError("Unknown activation function")
 
-    def save_array_to_blob(self, data_array): 
+    def save_weights_to_blob(self, data_array): 
         serialized_data = pickle.dumps(data_array) 
         self.weights = serialized_data
         self.size  = len(data_array)
         self.save()
 
-    def load_array_from_blob(self): 
+    def load_weights_from_blob(self): 
         serialized_data = self.weights 
         data_array = pickle.loads(serialized_data)
+        return data_array
+
+    def get_dropout_mask(self):
+        serialized_data = self.last_dropout_mask 
+        data_array = pickle.loads(serialized_data)
+        return data_array
+    
+    def generate_dropout_mask(self, layer):
+        data_array = np.random.randint(2, layer.shape)
+        serialized_data = pickle.dumps(data_array) 
+        self.last_dropout_mask = serialized_data 
+        self.save()
         return data_array
 
 
@@ -83,8 +99,13 @@ class NeuroNet(models.Model):
         current_layer = self.first_layer
         activations = [input_data]
         while current_layer:
-            weights = current_layer.load_array_from_blob()
+            weights = current_layer.load_weights_from_blob()
             input_data = current_layer.activate(np.dot(input_data, weights))
+
+            if current_layer.use_dropout:
+                dropout_mask  = current_layer.generate_dropout_mask(current_layer)
+                input_data *= dropout_mask * 2
+                
             activations.append(input_data)
             current_layer = current_layer.next_layer
         return activations
@@ -95,7 +116,7 @@ class NeuroNet(models.Model):
         deltas = [current_layer.activate_deriv(activations[-1] - goal_arr)]
         layer_index = -2
         while current_layer.previous_layer:
-            error = deltas[-1].dot(current_layer.load_array_from_blob().T)
+            error = deltas[-1].dot(current_layer.load_weights_from_blob().T)
             current_layer = current_layer.previous_layer
             delta = error * current_layer.activate_deriv(activations[layer_index])
             deltas.append(delta)
@@ -110,9 +131,9 @@ class NeuroNet(models.Model):
         for i in range(len(deltas)):
             layer_input = np.atleast_2d(activations[i])
             delta = np.atleast_2d(deltas[i])
-            current_weights = current_layer.load_array_from_blob()
+            current_weights = current_layer.load_weights_from_blob()
             current_weights -= current_layer.alpha * layer_input.T.dot(delta)
-            current_layer.save_array_to_blob(current_weights)
+            current_layer.save_weights_to_blob(current_weights)
             current_layer = current_layer.next_layer
 
     def education(self, input_arr, goal_arr, epochs=10000):
