@@ -10,7 +10,7 @@ def task_list(request):
     if status_filter:
         tasks = tasks.filter(status=status_filter)
     tasks = tasks.order_by('-due_date')
-    return render(request, 'task_manager_app/task_list.html', {'tasks': tasks})
+    return render(request, 'task_manager_app/task/list.html', {'tasks': tasks})
 
 def task_detail(request, pk):
     task = get_object_or_404(Task, pk=pk)
@@ -26,7 +26,7 @@ def task_detail(request, pk):
             return redirect('task_detail', pk=pk)
     else:
         form = CommentForm()
-    return render(request, 'task_manager_app/task_detail.html', {'task': task, 'comments': comments, 'form': form})
+    return render(request, 'task_manager_app/task/detail.html', {'task': task, 'comments': comments, 'form': form})
 
 def task_create(request):
     if request.method == 'POST':
@@ -39,7 +39,7 @@ def task_create(request):
             return redirect('task_list')
     else:
         form = TaskForm()
-    return render(request, 'task_manager_app/task_form.html', {'form': form})
+    return render(request, 'task_manager_app/task/form.html', {'form': form})
 
 def task_edit(request, pk):
     task = get_object_or_404(Task, pk=pk)
@@ -50,12 +50,12 @@ def task_edit(request, pk):
             return redirect('task_list')
     else:
         form = TaskForm(instance=task)
-    return render(request, 'task_manager_app/task_form.html', {'form': form})
+    return render(request, 'task_manager_app/task/form.html', {'form': form})
 
 def task_delete(request, pk):
     task = get_object_or_404(Task, pk=pk)
     if request.method == 'POST':
         task.delete()
         return redirect('task_list')
-    return render(request, 'task_manager_app/task_confirm_delete.html', {'task': task})
+    return render(request, 'task_manager_app/task/confirm_delete.html', {'task': task})
 
