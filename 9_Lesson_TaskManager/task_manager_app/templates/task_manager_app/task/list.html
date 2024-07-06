@@ -36,8 +36,11 @@
                             <p class="card-text">
                                 <small class="text-muted">Due: {{ task.due_date }}</small>
                             </p>
+                            <p class="card-text">
+                                <span class="badge bg-primary rounded-pill float-end">{{ task.get_status_display }}</span>
+                            </p>
                             <a href="{% url 'task_detail' task.pk %}" class="btn btn-primary">View Task</a>
-                            <span class="badge bg-primary rounded-pill float-end">{{ task.get_status_display }}</span>
+                            <a href="{% url 'task_delete' task.pk %}" class="btn btn-danger">Delete Task</a>
                         </div>
                     </div>
                 </div>

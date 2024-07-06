@@ -1,41 +1,55 @@
-<!-- tasks/templates/task_manager_app/task_detail.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Task Detail: {{ task.title }}</title>
-</head>
-<body>
-    <h1>{{ task.title }}</h1>
-    <p>Description: {{ task.description }}</p>
-    <p>Status: {{ task.get_status_display }}</p>
-    <p>Due date: {{ task.due_date }}</p>
+{% extends "task_manager_app/base.html" %}
 
-    <h2>Comments</h2>
+{% load static %}
+
+{% block title %}{{ task.title }}{% endblock %}
+
+{% load widget_tweaks %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <h1 class="mb-4">{{ task.title }}</h1>
+    <p><strong>Description:</strong> {{ task.description }}</p>
+    <p><strong>Status:</strong> {{ task.get_status_display }}</p>
+    <p><strong>Due date:</strong> {{ task.due_date }}</p>
+    
+    <a href="{% url 'task_edit' task.pk %}" class="btn btn-warning">Edit Task</a>
+    <h2 class="mt-5">Comments</h2>
     {% if comments %}
-        <ul>
+        <ul class="list-group mb-4">
             {% for comment in comments %}
-                <li>
-                    {% if comment.author.username %}
-                        <strong>{{ comment.author.username }}</strong>: {{ comment.text }}
-                    {% else %}
-                        <strong>Anonimus</strong>: {{ comment.text }}
-                    {% endif %}
-                   
-                    <small>{{ comment.created_date }}</small>
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            {% if comment.author.username %}
+                                <strong>{{ comment.author.username }}</strong>: {{ comment.text }}
+                            {% else %}
+                                <strong>Anonymous</strong>: {{ comment.text }}
+                            {% endif %}
+                        </div>
+                        <small class="text-muted">{{ comment.created_date }}</small>
+                    </div>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
-        <p>No comments yet.</p>
+        <p class="text-muted">No comments yet.</p>
     {% endif %}
 
-    <h2>Add a comment</h2>
-    <form method="post">
+    <h2 class="mt-5">Add a comment</h2>
+    <form method="post" class="needs-validation" novalidate>
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add Comment</button>
+        <div class="mb-3">
+            {% render_field form.text class="form-control" placeholder="Write your comment here..." %}
+            <div class="invalid-feedback">
+                Please write a comment.
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Comment</button>
     </form>
 
-    <a href="{% url 'task_list' %}">Back to Task List</a>
-</body>
-</html>
+    <a href="{% url 'task_list' %}" class="btn btn-secondary mt-3">Back to Task List</a>
+</div>
+
+{% endblock %}
